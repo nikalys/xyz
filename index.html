@@ -1,10 +1,70 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Fallsview Arena Ad</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Comparison Tool</title>
+    <style>
+        /* Add some basic styling */
+        textarea {
+            width: 300px;
+            height: 200px;
+            margin-bottom: 10px;
+        }
+        output {
+            display: block;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-  <center>
-<img src="https://i.imgur.com/yDjIk0t.jpg" width="1700px">
-  </center>
+    <h1>List Comparison Tool</h1>
+
+    <!-- Step 1: Remove every other line from the first input list -->
+    <h2>Step 1: FOLLOWING: Remove every other line from List 1</h2>
+    <textarea id="list1" placeholder="Paste List 1 here"></textarea>
+    <button onclick="removeEveryOtherLine('list1')">Remove Every Other Line from List 1</button>
+    <textarea id="outputList1" placeholder="Result will appear here" readonly></textarea>
+
+    <!-- Step 2: Remove every other line from the second input list -->
+    <h2>Step 2: FOLLOWERS: Remove every other line from List 2</h2>
+    <textarea id="list2" placeholder="Paste List 2 here"></textarea>
+    <button onclick="removeEveryOtherLine('list2')">Remove Every Other Line from List 2</button>
+    <textarea id="outputList2" placeholder="Result will appear here" readonly></textarea>
+
+    <!-- Step 3: Compare the two input lists -->
+    <h2>Step 3: Compare the two input lists</h2>
+    <button onclick="compareLists()">Compare Lists</button>
+    <output id="differences"></output>
+    <output id="similarities"></output>
+
+    <script>
+        // Function to remove every other line from the specified input list
+        function removeEveryOtherLine(listId) {
+            var inputList = document.getElementById(listId).value.split('\n');
+            var outputListId = "outputList" + listId.slice(-1); // Extract the list number from the ID
+            var outputList = [];
+
+            for (var i = 0; i < inputList.length; i++) {
+                // Only add lines with even indexes
+                if (i % 2 !== 1) {
+                    outputList.push(inputList[i]);
+                }
+            }
+
+            document.getElementById(outputListId).value = outputList.join('\n');
+        }
+
+        // Function to compare the two input lists
+        function compareLists() {
+            var list1 = document.getElementById("outputList1").value.split('\n');
+            var list2 = document.getElementById("outputList2").value.split('\n');
+            
+            var differences = list1.filter(item => !list2.includes(item));
+
+            document.getElementById("differences").innerText = "Items in List 1 but not in List 2: " + differences.join(', ');
+        }
+    </script>
 </body>
 </html>
